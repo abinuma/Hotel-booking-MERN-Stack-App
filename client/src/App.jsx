@@ -1,24 +1,23 @@
-import React from 'react'
-import Navbar from './components/Navbar'
-import { Route, Routes, useLocation } from 'react-router-dom';
-import Home from './pages/Home';
-import Footer from './components/Footer';
+import React from "react";
+import Navbar from "./components/Navbar";
+import { Route, Routes, useLocation } from "react-router-dom";
+import Home from "./pages/Home";
+import Footer from "./components/Footer";
 
 const App = () => {
-
   const isOwner = useLocation().pathname.includes("/owner");
 
   return (
-    <div >
+    <div>
       {!isOwner && <Navbar />}
-      <div className='min-h-[70vh]' >
+      <div className="min-h-[70vh]">
         <Routes>
-          <Route path="/" element={<Home/>}  />
+          <Route path="/" element={<Home />} />
         </Routes>
       </div>
-      <Footer/>
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
