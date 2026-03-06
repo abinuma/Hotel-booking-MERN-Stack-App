@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { facilityIcons, roomsDummyData } from "./assets/assets";
 import { useNavigate } from "react-router-dom";
 import StarRating from "./components/StarRating";
@@ -117,7 +117,7 @@ const AllRooms = () => {
       {/* Filters */}
       <div className="bg-white ml-7 w-80 border border-gray-300 text-gray-600 max-lg:mb-8 lg:mt-16">
         <div
-          className={`flex items-center justify-between px-5 py-2.5 min-lg:border-b border-gray-300 ${openFilters && "border-b"}`}
+          className={`flex items-center justify-between px-5 py-2.5 lg:border-b border-gray-300 ${openFilters && "border-b"}`}
         >
           <p className="text-base font-medium text-gray-800">FILTERS</p>
           <div className="text-xs cursor-pointer">
