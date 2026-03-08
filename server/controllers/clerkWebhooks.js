@@ -2,22 +2,32 @@ import User from "../models/User.js";
 import { Webhook } from "svix";
 
 const clerkWebhooks = async (req, res) => {
+    console.log(" Webhook request received");
+
   try {
+        console.log("Webhook Secret:", process.env.CLERK_WEBOOK_SECRET ? "Loaded " : "Missing ");
+
     //cretae a svix instance with clerk webhook secret.
     const whook = new Webhook(process.env.CLERK_WEBOOK_SECRET);
 
-    //Getting headres
+    //Getting headers
     const headers = {
       "svix-id": req.headers["svix-id"],
       "svix-timestamp": req.headers["svix-timestamp"],
       "svix-signature": req.headers["svix-signature"],
     };
+        console.log(" Webhook Headers:", headers);
+
 
     //verifying headers
     await whook.verify(JSON.stringify(req.body), headers);
+    console.log("Webhook verified successfully");
 
     //getting data from request body
     const { data, type } = req.body;
+
+        console.log(" Event Type:", type);
+    console.log(" Clerk User ID:", data?.id);
 
     const userData = {
       _id: data.id,
@@ -25,15 +35,25 @@ const clerkWebhooks = async (req, res) => {
       username: data.first_name + " " + data.last_name,
       image: data.image_url,
     };
+        console.log(" Processed User Data:", userData);
+
 
     //switch case for different types of events
     switch (type) {
       case "user.created": {
+          console.log("Creating user:", userData);
+
         await User.create(userData);
+                console.log(" User successfully created:", newUser);
+
         break;
       }
       case "user.updated": {
+                console.log(" Updating user:", data.id);
+
         await User.findByIdAndUpdate(data.id, userData);
+                console.log(" User updated:", updatedUser);
+
         break;
       }
       case "user.deleted": {
