@@ -45,30 +45,62 @@ const clerkWebhooks = async (req, res) => {
 
 
     //switch case for different types of events
+    // switch (type) {
+    //   case "user.created": {
+    //       console.log("Creating user:", userData);
+
+    //  const newUser = await User.create(userData);
+    //             console.log(" User successfully created:", newUser);
+
+    //     break;
+    //   }
+    //   case "user.updated": {
+    //             console.log(" Updating user:", data.id);
+
+    // const updatedUser = await User.findByIdAndUpdate(data.id, userData);
+    //             console.log(" User updated:", updatedUser);
+
+    //     break;
+    //   }
+    //   case "user.deleted": {
+    //     await User.findByIdAndDelete(data.id);
+    //     break;
+    //   }
+    //   default:
+    //     break;
+    // }
     switch (type) {
-      case "user.created": {
-          console.log("Creating user:", userData);
-
-        await User.create(userData);
-                console.log(" User successfully created:", newUser);
-
-        break;
-      }
-      case "user.updated": {
-                console.log(" Updating user:", data.id);
-
-        await User.findByIdAndUpdate(data.id, userData);
-                console.log(" User updated:", updatedUser);
-
-        break;
-      }
-      case "user.deleted": {
-        await User.findByIdAndDelete(data.id);
-        break;
-      }
-      default:
-        break;
-    }
+  case "user.created": {
+    const newUser = await User.create({
+      _id: data.id,
+      email: data.email_addresses[0]?.email_address || "",
+      username: (data.first_name || "") + " " + (data.last_name || ""),
+      image: data.image_url || "",
+      role: "user",
+      recentSearchedCities: [],
+    });
+    console.log("User successfully created:", newUser);
+    break;
+  }
+  case "user.updated": {
+    const updatedUser = await User.findByIdAndUpdate(
+      data.id,
+      {
+        email: data.email_addresses[0]?.email_address || "",
+        username: (data.first_name || "") + " " + (data.last_name || ""),
+        image: data.image_url || "",
+      },
+      { new: true }
+    );
+    console.log("User updated:", updatedUser);
+    break;
+  }
+  case "user.deleted": {
+    await User.findByIdAndDelete(data.id);
+    console.log("User deleted:", data.id);
+    break;
+  }
+}
     res.json({ success: true, message: "Webhook received" });
   } catch (error) {
     console.log(error.message);
