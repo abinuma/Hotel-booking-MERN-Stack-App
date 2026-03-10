@@ -63,7 +63,22 @@ const clerkWebhooks = async (req, res) => {
         break;
       }
       case "user.deleted": {
-        await User.findByIdAndDelete(data.id);
+            const userData = {
+      _id: data.id,
+      email: data.email_addresses[0]?.email_address || "",
+      username: (data.first_name || "") + " " + (data.last_name || ""),
+      image: data.image_url || "",
+      role: "user",
+      recentSearchedCities: [],
+    };
+
+    if (type === "user.created") {
+      const newUser = await User.create(userData);
+      console.log("User successfully created:", newUser);
+    } else {
+      const updatedUser = await User.findByIdAndUpdate(data.id, userData, { new: true });
+      console.log("User updated:", updatedUser);
+    }
         break;
       }
       default:
