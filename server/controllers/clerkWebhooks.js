@@ -1,7 +1,11 @@
 import User from "../models/User.js";
 import { Webhook } from "svix";
+import connectDB from "./configs/db.js";
+
 
 const clerkWebhooks = async (req, res) => {
+    await connectDB();   // ensure database is connected
+
     console.log(" Webhook request received");
 
   try {
@@ -34,6 +38,8 @@ const clerkWebhooks = async (req, res) => {
       email: data.email_addresses[0].email_address,
       username: data.first_name + " " + data.last_name,
       image: data.image_url,
+        role: "user",
+  recentSearchedCities: [],
     };
         console.log(" Processed User Data:", userData);
 
