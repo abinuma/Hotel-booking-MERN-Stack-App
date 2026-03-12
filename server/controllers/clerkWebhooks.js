@@ -1,10 +1,8 @@
 import User from "../models/User.js";
 import { Webhook } from "svix";
-import connectDB from "../configs/db.js";
 
 
 const clerkWebhooks = async (req, res) => {
-    // await connectDB();   // ensure database is connected
 
     console.log(" Webhook request received");
 
