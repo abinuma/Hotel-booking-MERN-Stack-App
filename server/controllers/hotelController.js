@@ -1,11 +1,11 @@
-import { Message } from "svix/dist/api/message.js";
 import Hotel from "../models/Hotel.js";
 import User from "../models/User.js";
 
 export const registerHotel = async (req,res) => {
     try {
+        
         const {name,address,contact,city} = req.body;
-        const owner = req.User_id;
+        const owner = req.user._id;
 
         //check f user already registerd
         const hotel = await Hotel.findOne({owner})
