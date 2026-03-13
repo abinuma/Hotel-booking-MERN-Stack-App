@@ -1,17 +1,14 @@
+import { clerkClient } from "@clerk/express";
 import User from "../models/User.js";
 
-// middleware to check if user is authenticated
 export const protect = async (req, res, next) => {
   try {
-    // Get userId from Clerk auth function
     let userId;
 
     if (typeof req.auth === "function") {
-      // Some Clerk versions: req.auth() returns { userId }
       const authObj = await req.auth();
       userId = authObj?.userId;
     } else {
-      // fallback: req.auth.userId
       userId = req.auth?.userId;
     }
 
@@ -19,10 +16,22 @@ export const protect = async (req, res, next) => {
       return res.json({ success: false, message: "Not authenticated" });
     }
 
-    const user = await User.findById(userId);
+    let user = await User.findById(userId);
 
+    // If user doesn't exist → fetch real data from Clerk
     if (!user) {
-      return res.json({ success: false, message: "User not found" });
+      const clerkUser = await clerkClient.users.getUser(userId);
+
+      user = await User.create({
+        _id: userId,
+        username:
+          clerkUser.username ||
+          `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`,
+        email: clerkUser.emailAddresses[0].emailAddress,
+        image: clerkUser.imageUrl,
+        role: "user",
+        recentSearchedCities: [],
+      });
     }
 
     req.user = user;
