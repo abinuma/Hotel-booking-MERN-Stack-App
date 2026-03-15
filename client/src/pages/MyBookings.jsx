@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Title from "./components/Title";
-import { assets, userBookingsDummyData } from "./assets/assets";
+import Title from "../components/Title";
+import { assets, userBookingsDummyData } from "../assets/assets";
 
 const MyBookings = () => {
   const [bookings, setBookings] = useState(userBookingsDummyData);

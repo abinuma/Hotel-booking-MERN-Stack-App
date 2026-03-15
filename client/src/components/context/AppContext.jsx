@@ -14,7 +14,7 @@ export const AppProvider = ({ children }) => {
   const { getToken } = useAuth();
   const [isOwner, setIsOwner] = useState(false);
   const [showHotelReg, setShowHotelReg] = useState(false);
-  const [searchedCities, setsearchedCities] = useState([]);
+  const [searchedCities, setSearchedCities] = useState([]);
   const [rooms, setRooms] = useState([]);
 
   const fetchRooms = async () => {
@@ -69,7 +69,7 @@ export const AppProvider = ({ children }) => {
     showHotelReg,
     setShowHotelReg,
     searchedCities,
-    setsearchedCities,
+    setSearchedCities,
     rooms,
     setRooms,
   };

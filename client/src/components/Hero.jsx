@@ -17,7 +17,7 @@ const Hero = () => {
 
     //add destination to searchedCities max 3 recent cities
     setSearchedCities((prevSearchedCities) => {
-      const updatedSearchedCities = [...prevSearchedCities, destination];
+      const updatedSearchedCities = [...prevSearchedCities, destination.trim().toLowerCase()];
       if (updatedSearchedCities.length > 3) {
         updatedSearchedCities.shift();
       }

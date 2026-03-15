@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { facilityIcons, roomCommonData, roomsDummyData } from "./assets/assets";
-import StarRating from "./components/StarRating";
-import { assets } from "./assets/assets";
+import { facilityIcons, roomCommonData, roomsDummyData } from "../assets/assets";
+import StarRating from "../components/StarRating";
+import { assets } from "../assets/assets";
 
 const RoomDetails = () => {
   const { id } = useParams();

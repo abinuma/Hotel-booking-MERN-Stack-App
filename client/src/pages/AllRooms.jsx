@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
-import { facilityIcons, roomsDummyData } from "./assets/assets";
+import { facilityIcons, roomsDummyData } from "../assets/assets";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import StarRating from "./components/StarRating";
-import { assets } from "./assets/assets";
-import { useAppContext } from "./components/context/AppContext";
+import StarRating from "../components/StarRating";
+import { assets } from "../assets/assets.js";
+import { useAppContext } from "../components/context/AppContext";
 
 const CheckBox = ({ label, selected = false, onchange = () => {} }) => {
   return (
