@@ -4,12 +4,12 @@ import Hotel from "../models/Hotel.js";
 
 //functionality to check availabilty of room
 
-const checkAvailability = async ({ checkinDate, checkOutDate, room }) => {
+const checkAvailability = async ({ checkInDate, checkOutDate, room }) => {
   try {
     const bookings = await Booking.find({
       room,
       checkInDate: { $lt: checkOutDate },
-      checkOutDate: { $gt: checkinDate },
+      checkOutDate: { $gt: checkInDate },
     });
     const isAvailable = bookings.length === 0;
     return isAvailable;
@@ -35,7 +35,7 @@ export const checkAvailabilityAPI = async (req, res) => {
   }
 };
 
-//API to create a new booing
+//API to create a new booking
 //POST /api/bookings/book
 
 export const createBooking = async (req, res) => {
@@ -67,7 +67,7 @@ export const createBooking = async (req, res) => {
     const timeDiff = checkOut.getTime() - checkIn.getTime();
     const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
     totalPrice *= nights;
-    const booking = new Booking.create({
+    const booking = await Booking.create({
       user,
       room,
       hotel: roomData.hotel._id,
@@ -76,7 +76,11 @@ export const createBooking = async (req, res) => {
       checkOutDate,
       totalPrice,
     });
-    res.json({ success: true, booking });
+    res.json({
+      success: true,
+      message: "Booking created successfully",
+      
+    });
   } catch (error) {
     console.error(error);
     res.json({ success: false, message: "failed to create booking" });

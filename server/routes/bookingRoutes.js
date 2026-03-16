@@ -5,8 +5,8 @@ import { protect } from "../middleware/authMiddleware.js";
 const bookingRouter = express.Router();
 
 bookingRouter.post('/check-availability',protect, checkAvailabilityAPI)
-bookingRouter.post('/check-availability',protect, createBooking)
-bookingRouter.get('/check-availability',protect, getUserBookings)
-bookingRouter.get('/check-availability',protect, getHotelBookings)
+bookingRouter.post('/book',protect, createBooking)
+bookingRouter.get('/user',protect, getUserBookings)
+bookingRouter.get('/hotel',protect, getHotelBookings)
 
 export default bookingRouter;
