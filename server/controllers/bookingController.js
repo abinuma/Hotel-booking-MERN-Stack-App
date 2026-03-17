@@ -1,4 +1,4 @@
-import Booking from "../models/booking.js";
+import Booking from "../models/Booking.js";
 import Room from "../models/Room.js";
 import Hotel from "../models/Hotel.js";
 import transporter from "../configs/nodemailer.js";
