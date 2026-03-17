@@ -29,11 +29,15 @@ const RoomDetails = () => {
         toast.error("check-in date should be less than check-out date");
         return;
       }
-      const { data } = await axios.post("/api/bookings/check-availability", {
-        room: id,
-        checkInDate,
-        checkOutDate,
-      }, { headers: { Authorization: `Bearer ${await getToken()}` } });
+      const { data } = await axios.post(
+        "/api/bookings/check-availability",
+        {
+          room: id,
+          checkInDate,
+          checkOutDate,
+        },
+        { headers: { Authorization: `Bearer ${await getToken()}` } },
+      );
       if (data.success) {
         if (data.isAvailable) {
           setIsAvailable(true);
@@ -78,7 +82,7 @@ const RoomDetails = () => {
         }
       }
     } catch (error) {
-  toast.error(error.message);
+      toast.error(error.message);
     }
   };
 

@@ -1,6 +1,7 @@
 import Booking from "../models/booking.js";
 import Room from "../models/Room.js";
 import Hotel from "../models/Hotel.js";
+import transporter from "../configs/nodemailer.js";
 
 //functionality to check availabilty of room
 
@@ -75,14 +76,36 @@ export const createBooking = async (req, res) => {
       checkInDate,
       checkOutDate,
       totalPrice,
+      paymentMethod: "Pay At Hotel",
     });
+
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL,
+      to: req.user.email,
+      subject: "Hotel booking details",
+      html: ` <h2>Your booking Details</h2>
+      <p>Dear ${req.user.username},</p>
+      <p>Thank you for your booking! Here are your details:</p>
+      <ul>
+        <li> <strong>Booking ID:</strong> ${booking._id}</li>
+        <li> <strong>Hotel Name:</strong> ${roomData.hotel.name}</li>
+        <li> <strong>Location:</strong> ${roomData.hotel.address}</li>
+        <li> <strong>Date:</strong> ${booking.checkInDate.toDateString()}</li>
+        <li> <strong>Booking Amount:</strong> ${process.env.CURRENCY || "$"} ${booking.totalPrice}/night</li>
+      </ul>
+      <p>We look forward to welcoming you!</p>
+      <p>If you need to make any changes, feel free to contact us.</p>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
     res.json({
       success: true,
       message: "Booking created successfully",
-      
     });
   } catch (error) {
-    console.error(error);
+    console.error("BOOKING ERROR 👉", error);
     res.json({ success: false, message: "failed to create booking" });
   }
 };
@@ -119,10 +142,6 @@ export const getHotelBookings = async (req, res) => {
     res.json({
       success: true,
       dashboard: { totalBookings, totalReveneue, bookings },
-    });
-    res.json({
-      success: true,
-      dashboardData: { totalBookings, totalReveneue, bookings },
     });
   } catch (error) {
     res.json({ success: false, message: "failed to fetch bookings" });
