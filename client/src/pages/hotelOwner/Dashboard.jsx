@@ -19,12 +19,18 @@ const Dashboard = () => {
           Authorization: `Bearer ${await getToken()}`,
         },
       });
+          console.log("DEBUG: Dashboard API Response:", data); // <-- new log
+
       if (data.success) {
-        setDashboardData(data.message);
+        setDashboardData(data.dashboard);
+              console.log("DEBUG: Dashboard state set:", data.dashboard); // <-- new log
+
       } else {
         toast.error(data.message);
       }
     } catch (error) {
+          console.log("DEBUG: Dashboard fetch error:", error.message);
+
       toast.error(error.message);
     }
   };

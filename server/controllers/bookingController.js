@@ -128,6 +128,8 @@ export const getHotelBookings = async (req, res) => {
   try {
     const hotel = await Hotel.findOne({ owner: req.auth.userId });
     if (!hotel) {
+            console.log("DEBUG: No hotel found for owner", req.auth.userId);
+
       return res.json({ success: false, message: "No hotel found" });
     }
     const bookings = await Booking.find({ hotel: hotel._id })
@@ -139,6 +141,8 @@ export const getHotelBookings = async (req, res) => {
       (acc, booking) => acc + booking.totalPrice,
       0,
     );
+      console.log("DEBUG: Bookings fetched:", bookings.length);
+    console.log("DEBUG: Total Revenue:", totalRevenue);
     res.json({
       success: true,
       dashboard: { totalBookings, totalReveneue, bookings },
