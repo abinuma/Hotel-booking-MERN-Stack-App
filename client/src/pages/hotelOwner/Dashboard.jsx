@@ -5,7 +5,7 @@ import { useAppContext } from "../../components/context/AppContext";
 
 const Dashboard = () => {
   const { currency, user, getToken, toast, axios } = useAppContext();
-
+console.log("🟡 USER:", user);
   const [dashboardData, setDashboardData] = useState({
     bookings: [],
     totalBookings: 0,
@@ -13,6 +13,8 @@ const Dashboard = () => {
   });
 
   const fetchDashboardData = async () => {
+    console.log("🟡 TOKEN:", await getToken());
+
     try {
       const { data } = await axios.get("/api/bookings/hotel", {
         headers: {

@@ -132,6 +132,8 @@ export const getHotelBookings = async (req, res) => {
             console.log("DEBUG: No hotel found for owner", req.auth.user_id);
             console.log("Owner ID:", req.user._id);
 console.log("Hotel Found:", hotel);
+console.log("🟡 req.auth:", req.auth);
+console.log("🟡 req.user:", req.user);
 
       return res.json({ success: false, message: "No hotel found" });
     }
@@ -146,11 +148,13 @@ console.log("Hotel Found:", hotel);
     );
       console.log("DEBUG: Bookings fetched:", bookings.length);
     console.log("DEBUG: Total Revenue:", totalRevenue);
+    console.log("🟡 API HIT: /api/bookings/hotel");
     res.json({
       success: true,
       dashboard: { totalBookings, totalRevenue , bookings },
     });
   } catch (error) {
+    console.error("BOOKING ERROR 👉", error);
     res.json({ success: false, message: "failed to fetch bookings" });
   }
 };
