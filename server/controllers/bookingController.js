@@ -127,7 +127,7 @@ export const getUserBookings = async (req, res) => {
 export const getHotelBookings = async (req, res) => {
   try {
     
-    const hotel = await Hotel.findOne({ owner: req.auth?.user_id || "12234455" });
+    const hotel = await Hotel.findOne({ owner: req.user._id || "12234455" });
     if (!hotel) {
             console.log("DEBUG: No hotel found for owner", req.auth.user_id);
             console.log("Owner ID:", req.user._id);

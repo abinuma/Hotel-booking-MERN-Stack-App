@@ -23,12 +23,14 @@ console.log("🟡 USER:", user);
       });
           console.log("DEBUG: Dashboard API Response:", data); // <-- new log
 
-      if (data.success) {
+      if (data?.success) {
         setDashboardData(data.dashboard);
               console.log("DEBUG: Dashboard state set:", data.dashboard); // <-- new log
 
       } else {
-        toast.error(data.message);
+          console.log("FULL ERROR RESPONSE:", data);
+
+  toast.error(data?.message || "Something went wrong");
       }
     } catch (error) {
           console.log("DEBUG: Dashboard fetch error:", error.message);
