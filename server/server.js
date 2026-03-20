@@ -11,8 +11,8 @@ import roomRouter from "./routes/roomRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 import { stripeWebhooks } from "./controllers/stripeWebhooks.js";
 
-connectDB();
-connectCloudinary();
+// connectDB();
+// connectCloudinary();
 
 const app = express();
 app.use(cors()); //enable cross-origin resource sharing
@@ -35,4 +35,19 @@ app.use('/api/bookings', bookingRouter)
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+const startServer = async () => {
+  try {
+    await connectDB();          // wait for DB
+    await connectCloudinary();  // optional but good to await
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+
+  } catch (error) {
+    console.log("❌ Failed to start server:", error.message);
+  }
+};
+// app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+startServer();
+
