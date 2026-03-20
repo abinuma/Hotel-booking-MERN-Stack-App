@@ -34,6 +34,8 @@ import Booking from "../models/Booking.js";
 // }
 
 export const stripeWebhooks = async (request, response) => {
+  console.log("🟡 WEBHOOK HIT");
+
   const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
   const sig = request.headers['stripe-signature'];
 
@@ -50,23 +52,53 @@ export const stripeWebhooks = async (request, response) => {
     return response.status(400).send(`Webhook Error: ${error.message}`);
   }
 
-  // ✅ correct event
+  console.log("🟢 Event Type:", event.type);
+
+  // 🔥 CASE 1: checkout.session.completed
   if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
 
-    const session = event.data.object; // ✅ THIS IS THE SESSION
+    console.log("🟣 SESSION:", session);
 
-    const { bookingId } = session.metadata;
+    const bookingId = session.metadata?.bookingId;
 
-    console.log("✅ Payment success for booking:", bookingId);
+    console.log("✅ BookingId from session:", bookingId);
 
-    // ✅ update DB
-    await Booking.findByIdAndUpdate(bookingId, {
-      isPaid: true,
-      paymentMethod: "Stripe"
-    });
+    if (bookingId) {
+      await Booking.findByIdAndUpdate(bookingId, {
+        isPaid: true,
+        paymentMethod: "Stripe",
+      });
+      console.log("✅ DB UPDATED via session");
+    } else {
+      console.log("❌ bookingId missing in session metadata");
+    }
+  }
 
-  } else {
-    console.log(`Unhandled event type ${event.type}`);
+  // 🔥 CASE 2: payment_intent.succeeded
+  else if (event.type === 'payment_intent.succeeded') {
+    const paymentIntent = event.data.object;
+
+    console.log("🟣 PAYMENT INTENT:", paymentIntent);
+
+    // metadata may be here
+    const bookingId = paymentIntent.metadata?.bookingId;
+
+    console.log("✅ BookingId from paymentIntent:", bookingId);
+
+    if (bookingId) {
+      await Booking.findByIdAndUpdate(bookingId, {
+        isPaid: true,
+        paymentMethod: "Stripe",
+      });
+      console.log("✅ DB UPDATED via paymentIntent");
+    } else {
+      console.log("❌ bookingId missing in paymentIntent metadata");
+    }
+  }
+
+  else {
+    console.log(`⚠️ Unhandled event type ${event.type}`);
   }
 
   response.json({ received: true });
