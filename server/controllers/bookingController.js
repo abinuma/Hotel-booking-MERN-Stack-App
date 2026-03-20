@@ -191,7 +191,13 @@ export const stripePayment = async (req,res) => {
       cancel_url: `${origin}/my-bookings`,
       metadata: {
         bookingId,
-      }
+      },
+
+       payment_intent_data: {
+    metadata: {
+      bookingId,
+    },
+  },
     })
     res.json({ success: true,url: session.url });
   } catch (error) {
