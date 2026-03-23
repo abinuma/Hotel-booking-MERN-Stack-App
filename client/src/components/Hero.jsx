@@ -8,12 +8,23 @@ const Hero = () => {
 
   const onSearch = async (e) => {
     e.preventDefault();
-    navigate(`/rooms?destination=${destination}`);
+    const trimmedDestination = destination.trim();
+    navigate(`/rooms?destination=${encodeURIComponent(trimmedDestination)}`);
 
     //call api to save recently searched city
-    await axios.post('/api/user/store-recent-search', {recentSearchedCity: destination}, {
-      headers: { Authorization: `Bearer ${await getToken()}` },
-    });
+    try {
+      await axios.post(
+        "/api/user",
+        { recentSearchedCities: trimmedDestination.toLowerCase() },
+        {
+          headers: { Authorization: `Bearer ${await getToken()}` },
+        },
+      );
+    } catch (err) {
+      // Don't break the room search flow if "recent search" saving fails.
+      // eslint-disable-next-line no-console
+      console.error("Failed to store recent search:", err);
+    }
 
     //add destination to searchedCities max 3 recent cities
     setSearchedCities((prevSearchedCities) => {
