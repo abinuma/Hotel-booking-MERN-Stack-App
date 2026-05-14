@@ -61,7 +61,7 @@ const Navbar = () => {
       {/* Logo */}
       <Link to="/">
         <img
-          src={assets.logo}
+          src={assets.logo2}
           alt="logo"
           className={`h-9 ${isScrolled && "invert opacity-80 "} `}
         />

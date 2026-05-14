@@ -38,10 +38,17 @@ import listIcon from "./listIcon.svg";
 import uploadArea from "./uploadArea.svg";
 import totalBookingIcon from "./totalBookingIcon.svg";
 import totalRevenueIcon from "./totalRevenueIcon.svg";
-
+import logo2 from './logo2.png'
+import lo from './lo.png'
+import loo from './loo.png'
+// import fav from './fav.png'
 
 export const assets = {
     logo,
+    // fav,
+    lo,
+    loo,
+    logo2,
     searchIcon,
     userIcon,
     calenderIcon,
