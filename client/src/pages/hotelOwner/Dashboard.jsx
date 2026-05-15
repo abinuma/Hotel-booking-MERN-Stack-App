@@ -57,7 +57,7 @@ console.log("🟡 USER:", user);
         {/* ----total bookings---- */}
         <div className="bg-primary/3 border border-primary/10 rounded flex p-4 pr-8">
           <img
-            src={assets.totalBookingIcon}
+            src={assets.logo2}
             alt="tootal-booking-icon"
             className="max-sm:hidden h-10"
           />

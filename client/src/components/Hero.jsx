@@ -41,7 +41,7 @@ const Hero = () => {
         The ultimate hotel experience
       </p>
       <h1 className="font-playfair text-2xl md:text-5xl md:text[56px] md:leading-14 font-bold md:font-extrabold max-w-xl mt-4 ">
-        Discover Your Perfect Getway DEstination
+        Discover Your Perfect Getway Destination
       </h1>
       <p className="max-w-130 mt-2 text-sm md:text-base">
         Unparalleled luxury and comfort await at world's most exclusive hotels

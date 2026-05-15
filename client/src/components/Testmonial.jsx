@@ -8,7 +8,7 @@ const Testmonial = () => {
     <div className="flex flex-col items-center px-6 md:px-16 lg:px-24 bg-slate-50 pt-20 pb-30 ">
       <Title
         title="What our guests say"
-        subTitle="Discover why descendig travelers consistently choose quickstay their exclusive and luxurious accomodations around the world "
+        subTitle="Discover why descendig travelers consistently choose booksimply their exclusive and luxurious accomodations around the world "
       />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-20">
         {testimonials.map((testimonial) => (
